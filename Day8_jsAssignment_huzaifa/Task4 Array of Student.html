@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .student {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    button {
+      padding: 8px 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    form {
+      margin-bottom: 20px;
+      background-color: #eef;
+      padding: 15px;
+      border-radius: 8px;
+      width: 300px;
+    }
+    input {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 95%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Student List</h1>
+
+  <!-- Student Form -->
+  <form id="studentForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="number" id="rollNumber" placeholder="Roll Number" required />
+    <input type="number" id="marks" placeholder="Marks" required />
+    <button type="submit">Add Student</button>
+  </form>
+
+  <!-- Button to show top scorers -->
+  <button onclick="showTopScorers()">Show Top Scorers</button>
+
+  <!-- Section to display students -->
+  <section id="studentSection"></section>
+
+  <script>
+    let students = [
+      { name: "Ali", rollNumber: 101, marks: 85 },
+      { name: "Fatima", rollNumber: 102, marks: 92 },
+      { name: "Rahul", rollNumber: 103, marks: 78 }
+    ];
+
+    const studentSection = document.getElementById("studentSection");
+
+    // Display students
+    function displayStudents(studentList) {
+      studentSection.innerHTML = "";
+      studentList.forEach(student => {
+        const div = document.createElement("div");
+        div.className = "student";
+        div.innerHTML = `
+          <strong>Name:</strong> ${student.name} <br>
+          <strong>Roll Number:</strong> ${student.rollNumber} <br>
+          <strong>Marks:</strong> ${student.marks}
+        `;
+        studentSection.appendChild(div);
+      });
+    }
+
+    // Initial display
+    displayStudents(students);
+
+    // Show top scorers
+    function showTopScorers() {
+      const topScorers = students.filter(student => student.marks > 70);
+      displayStudents(topScorers);
+    }
+
+    // Handle form submission
+    const form = document.getElementById("studentForm");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page refresh
+
+      const name = document.getElementById("name").value;
+      const rollNumber = parseInt(document.getElementById("rollNumber").value);
+      const marks = parseInt(document.getElementById("marks").value);
+
+      // Add new student
+      const newStudent = { name, rollNumber, marks };
+      students.push(newStudent);
+
+      // Update list
+      displayStudents(students);
+
+      // Reset form
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>
